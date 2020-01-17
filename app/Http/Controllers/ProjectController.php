@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserCreateRequest;
-use App\Models\Role;
+use App\Http\Requests\StoreProjectRequest;
+use App\Models\Project;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class ProjectController extends Controller
 {
     public function __construct()
     {
@@ -23,8 +23,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('roles')->get();
-        return view('users.index', compact('users'));
+    $projects = Project::with('staffs')->get();
+        return view('projects.index', compact('projects'));
     }
 
     /**
@@ -34,8 +34,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::active()->get();
-        return view('users.create', compact('roles'));
+        $users = User::staff()->get();
+        return view('projects.create', compact('users'));
     }
 
     /**
@@ -44,23 +44,22 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserCreateRequest $request)
+    public function store(StoreProjectRequest $request)
     {
         try{
             DB::transaction(function() use ($request) {
-                $user = User::create([
-                    'userid'=> $request->userid,
-                    'name'=> $request->name,
-                    'email'=> $request->email,
-                    'designation'=> $request->designation,
-                    'is_active'=> $request->is_active ? $request->is_active : 0,
-                    'password'=> Hash::make('12345678')
+                $project = Project::create([
+                    'title'=> $request->title,
+                    'client'=> $request->client,
+                    'starting_date'=> Carbon::parse($request->starting_date)->format('Y-m-d'),
+                    'ending_date'=> $request->ending_date ? Carbon::parse($request->ending_date)->format('Y-m-d') : NULL,
+                    'status'=> $request->status
                 ]);
     
-                $roles = $request->roles;
+                $users = $request->users;
         
-                foreach($roles as $role) {
-                    $user->roles()->attach($role);
+                foreach($users as $user) {
+                    $project->staffs()->attach($user);
                 }
             });
             return back()->withSuccess('Saved Successfully');
@@ -72,10 +71,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Project $project)
     {
         //
     }
@@ -83,10 +82,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Project $project)
     {
         //
     }
@@ -95,10 +94,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Project $project)
     {
         //
     }
@@ -106,10 +105,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Project $project)
     {
         //
     }

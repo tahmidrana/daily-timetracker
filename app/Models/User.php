@@ -41,4 +41,24 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');
+    }
+
+    public function scopeStaff()
+    {
+        return $this->where('is_superuser', 0);
+    }
+
+    public function getNameIdAttribute()
+    {
+        return $this->name.' - ('.$this->userid.')';
+    }
+
+    public function getNameDesignationAttribute()
+    {
+        return $this->designation ? $this->name.' - ('.$this->designation.')' : $this->name;
+    }
 }

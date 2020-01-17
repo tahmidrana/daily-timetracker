@@ -45,6 +45,12 @@
                             </li>
                         @else
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('projects.index') }}">{{ __('Projects') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('users.index') }}">{{ __('Records') }}</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('users.index') }}">{{ __('Staffs') }}</a>
                             </li>
                             <li class="nav-item dropdown">

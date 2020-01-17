@@ -19,6 +19,7 @@
                     <th>Name</th>
                     <th>Designation</th>
                     <th>Role</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -29,7 +30,11 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->designation }}</td>
                         <td>{{ implode(', ', $user->roles->pluck('title')->toArray()) }}</td>
-                        <td></td>
+                        <td>{!! $user->is_active ? '<span class="text-success">Active</span>' : '<span class="text-danger">Inactive</span>' !!}</td>
+                        <td>
+                            <a href="" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
