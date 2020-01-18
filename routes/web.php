@@ -18,4 +18,6 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::prefix('admin')->group(function(){
     Route::resource('users', 'UserController');
     Route::resource('projects', 'ProjectController');
+    Route::get('time-logs/get-logs', 'TimeLogController@getLogs');
+    Route::resource('time-logs', 'TimeLogController');
 });

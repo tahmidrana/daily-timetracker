@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Models\TimeLogType;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $log_types = TimeLogType::active()->get();
+        $projects = Project::all();
+        return view('home', compact('log_types', 'projects'));
     }
 }

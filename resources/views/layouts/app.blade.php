@@ -8,9 +8,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Appinion Timetracker') }}</title>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -18,6 +19,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -48,7 +50,7 @@
                                 <a class="nav-link" href="{{ route('projects.index') }}">{{ __('Projects') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('users.index') }}">{{ __('Records') }}</a>
+                                <a class="nav-link" href="{{ route('time-logs.index') }}">{{ __('Time Logs') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('users.index') }}">{{ __('Staffs') }}</a>
@@ -90,5 +92,7 @@
             </main>
         </div>
     </div>
+
+    @yield('scripts')
 </body>
 </html>

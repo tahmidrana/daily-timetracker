@@ -110,6 +110,12 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        try{
+            $project->staffs()->detach();
+            $project->delete();
+            return back()->withSuccess('Successfully Removed');
+        } catch(\Exception $e) {
+            return back()->withError('Delete Failed');
+        }
     }
 }
